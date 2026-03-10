@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" width="240" height="300">
+  <!-- Background -->
+  <rect width="240" height="300" fill="#e8e5de"/>
+
+  <!-- Antennae -->
+  <rect x="82" y="12" width="6" height="30" fill="#c17a63" transform="rotate(-15, 85, 12)"/>
+  <rect x="152" y="12" width="6" height="30" fill="#c17a63" transform="rotate(15, 155, 12)"/>
+
+  <!-- Head -->
+  <rect x="72" y="38" width="96" height="50" fill="#c17a63"/>
+
+  <!-- Eyes -->
+  <rect x="88" y="50" width="14" height="14" fill="#1a1a1a"/>
+  <rect x="138" y="50" width="14" height="14" fill="#1a1a1a"/>
+
+  <!-- Claws - left arm -->
+  <rect x="42" y="68" width="30" height="14" fill="#c17a63"/>
+  <!-- Left claw (pincer) -->
+  <rect x="18" y="58" width="28" height="14" fill="#c17a63"/>
+  <rect x="18" y="72" width="28" height="14" fill="#c17a63"/>
+  <rect x="18" y="68" width="8" height="8" fill="#e8e5de"/>
+
+  <!-- Claws - right arm -->
+  <rect x="168" y="68" width="30" height="14" fill="#c17a63"/>
+  <!-- Right claw (pincer) -->
+  <rect x="194" y="58" width="28" height="14" fill="#c17a63"/>
+  <rect x="194" y="72" width="28" height="14" fill="#c17a63"/>
+  <rect x="214" y="68" width="8" height="8" fill="#e8e5de"/>
+
+  <!-- Body segment 1 -->
+  <rect x="72" y="88" width="96" height="30" fill="#c17a63"/>
+
+  <!-- Blue sash -->
+  <rect x="72" y="100" width="96" height="16" fill="#4a6ec9"/>
+  <!-- Lock body -->
+  <rect x="112" y="102" width="14" height="11" rx="2" fill="white"/>
+  <!-- Lock shackle -->
+  <path d="M115,102 V99 a4.5,4.5 0 0 1 9,0 V102" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Keyhole -->
+  <circle cx="119" cy="107" r="1.8" fill="#4a6ec9"/>
+
+  <!-- Body segment 2 -->
+  <rect x="78" y="118" width="84" height="28" fill="#c17a63"/>
+
+  <!-- Body segment 3 -->
+  <rect x="84" y="146" width="72" height="26" fill="#c17a63"/>
+
+  <!-- Body segment 4 (narrowing) -->
+  <rect x="90" y="172" width="60" height="24" fill="#c17a63"/>
+
+  <!-- Tail fan -->
+  <rect x="82" y="196" width="76" height="16" fill="#c17a63"/>
+  <rect x="92" y="212" width="20" height="14" fill="#c17a63"/>
+  <rect x="128" y="212" width="20" height="14" fill="#c17a63"/>
+  <rect x="108" y="212" width="24" height="18" fill="#c17a63"/>
+
+  <!-- Small legs - left -->
+  <rect x="58" y="122" width="20" height="8" fill="#c17a63"/>
+  <rect x="62" y="148" width="22" height="8" fill="#c17a63"/>
+  <rect x="68" y="174" width="22" height="8" fill="#c17a63"/>
+
+  <!-- Small legs - right -->
+  <rect x="162" y="122" width="20" height="8" fill="#c17a63"/>
+  <rect x="156" y="148" width="22" height="8" fill="#c17a63"/>
+  <rect x="150" y="174" width="22" height="8" fill="#c17a63"/>
+</svg>
