@@ -23,7 +23,11 @@ def read_pid(config: Config) -> int | None:
     text = config.pid_file.read_text().strip()
     if not text:
         return None
-    return int(text)
+    try:
+        return int(text)
+    except ValueError:
+        config.pid_file.unlink(missing_ok=True)
+        return None
 
 
 def is_process_alive(pid: int) -> bool:
@@ -106,11 +110,13 @@ def build_command(config: Config) -> list[str]:
     raise RuntimeError(f"unknown backend: {config.backend}")
 
 
-def wait_for_ready(config: Config, *, timeout: float) -> bool:
+def wait_for_ready(config: Config, *, timeout: float, process: subprocess.Popen) -> bool:
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
         if is_healthy(config):
             return True
+        if process.poll() is not None:
+            return False
         time.sleep(0.5)
     return False
 
@@ -138,7 +144,7 @@ def start_server(config: Config) -> str:
             env=env,
         )
     config.pid_file.write_text(f"{process.pid}\n")
-    if wait_for_ready(config, timeout=config.startup_timeout_seconds):
+    if wait_for_ready(config, timeout=config.startup_timeout_seconds, process=process):
         return "started"
     if process.poll() is None:
         process.terminate()
@@ -146,7 +152,10 @@ def start_server(config: Config) -> str:
             process.wait(timeout=5)
         except subprocess.TimeoutExpired:
             process.kill()
-            process.wait(timeout=5)
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                pass
     config.pid_file.unlink(missing_ok=True)
     tail = log_tail(config.log_file)
     raise RuntimeError(f"server failed to start\n{tail}")
@@ -160,14 +169,22 @@ def stop_server(config: Config) -> str:
     if not is_process_alive(pid):
         config.pid_file.unlink(missing_ok=True)
         return "not running"
-    os.kill(pid, signal.SIGTERM)
+    try:
+        os.kill(pid, signal.SIGTERM)
+    except ProcessLookupError:
+        config.pid_file.unlink(missing_ok=True)
+        return "stopped"
     deadline = time.monotonic() + 10
     while time.monotonic() < deadline:
         if not is_process_alive(pid):
             config.pid_file.unlink(missing_ok=True)
             return "stopped"
         time.sleep(0.2)
-    os.kill(pid, signal.SIGKILL)
+    try:
+        os.kill(pid, signal.SIGKILL)
+    except ProcessLookupError:
+        config.pid_file.unlink(missing_ok=True)
+        return "stopped"
     deadline = time.monotonic() + 5
     while time.monotonic() < deadline:
         if not is_process_alive(pid):

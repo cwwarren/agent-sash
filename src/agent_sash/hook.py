@@ -79,7 +79,7 @@ def score_command(config: Config, command: str) -> Score:
         raise RuntimeError("model returned invalid score")
     if not isinstance(explanation, str) or not explanation.strip():
         raise RuntimeError("model returned invalid explanation")
-    return Score(score=float(score), explanation=explanation.strip())
+    return Score(score=max(0.0, min(1.0, float(score))), explanation=explanation.strip())
 
 
 def decision_payload(decision: str, reason: str) -> dict:

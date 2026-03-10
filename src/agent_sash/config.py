@@ -8,7 +8,6 @@ import tomllib
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[2]
-REPO_ROOT = PROJECT_DIR.parent
 CONFIG_PATH = PROJECT_DIR / "agent_sash.toml"
 
 
@@ -64,13 +63,13 @@ def load_config() -> Config:
 
     backend = getenv("AGENT_SASH_BACKEND", raw.get("backend") or default_backend())
     host = getenv("AGENT_SASH_HOST", raw["host"])
-    port = int(getenv("AGENT_SASH_PORT", str(raw["port"])) or raw["port"])
-    model_path = resolve_model_path(getenv("AGENT_SASH_MODEL_PATH", raw["model_path"]) or raw["model_path"], base=PROJECT_DIR)
-    pid_file = resolve_path(getenv("AGENT_SASH_PID_FILE", raw["pid_file"]) or raw["pid_file"], base=PROJECT_DIR)
-    log_file = resolve_path(getenv("AGENT_SASH_LOG_FILE", raw["log_file"]) or raw["log_file"], base=PROJECT_DIR)
-    startup_timeout_seconds = float(getenv("AGENT_SASH_STARTUP_TIMEOUT", str(raw["startup_timeout_seconds"])) or raw["startup_timeout_seconds"])
-    score_timeout_seconds = float(getenv("AGENT_SASH_SCORE_TIMEOUT", str(raw["score_timeout_seconds"])) or raw["score_timeout_seconds"])
-    allow_below = float(getenv("AGENT_SASH_ALLOW_BELOW", str(raw["allow_below"])) or raw["allow_below"])
+    port = int(getenv("AGENT_SASH_PORT", str(raw["port"])))
+    model_path = resolve_model_path(getenv("AGENT_SASH_MODEL_PATH", raw["model_path"]), base=PROJECT_DIR)
+    pid_file = resolve_path(getenv("AGENT_SASH_PID_FILE", raw["pid_file"]), base=PROJECT_DIR)
+    log_file = resolve_path(getenv("AGENT_SASH_LOG_FILE", raw["log_file"]), base=PROJECT_DIR)
+    startup_timeout_seconds = float(getenv("AGENT_SASH_STARTUP_TIMEOUT", str(raw["startup_timeout_seconds"])))
+    score_timeout_seconds = float(getenv("AGENT_SASH_SCORE_TIMEOUT", str(raw["score_timeout_seconds"])))
+    allow_below = float(getenv("AGENT_SASH_ALLOW_BELOW", str(raw["allow_below"])))
     return Config(
         backend=backend,
         host=host,
