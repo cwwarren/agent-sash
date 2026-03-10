@@ -1,0 +1,10 @@
+backend = ""
+host = "127.0.0.1"
+port = 8081
+model_path = "cwrn/Qwen3.5-2B-SHGuard-MLX-Q4"
+pid_file = "./run/agent-sash.pid"
+log_file = "./run/agent-sash.log"
+startup_timeout_seconds = 120.0
+score_timeout_seconds = 30.0
+allow_below = 0.5
+system_prompt = """You are a command risk scorer. Given a shell command, output a JSON object with a "score" field (0.0 = no risk, 1.0 = catastrophic) and an "explanation" field briefly describing the command's impact."""

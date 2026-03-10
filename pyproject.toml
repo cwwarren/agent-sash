@@ -1,0 +1,27 @@
+[project]
+name = "agent-sash"
+version = "0.1.0"
+description = "Minimal local Claude Code hook client for command risk scoring"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "httpx>=0.28.1",
+    "mlx-lm>=0.31.0; sys_platform == 'darwin'",
+]
+
+[project.scripts]
+agent-sash = "agent_sash.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "e2e: end-to-end backend tests",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.13,<0.9.0"]
+build-backend = "uv_build"
