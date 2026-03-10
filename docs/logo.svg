@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" width="240" height="300">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
   <!-- Background -->
-  <rect width="240" height="300" fill="#e8e5de"/>
+  <rect width="300" height="300" fill="#e8e5de"/>
+  <g transform="translate(30, 0)">
 
   <!-- Antennae -->
   <rect x="82" y="12" width="6" height="30" fill="#c17a63" transform="rotate(-15, 85, 12)"/>
@@ -63,4 +64,5 @@
   <rect x="162" y="122" width="20" height="8" fill="#c17a63"/>
   <rect x="156" y="148" width="22" height="8" fill="#c17a63"/>
   <rect x="150" y="174" width="22" height="8" fill="#c17a63"/>
+  </g>
 </svg>
