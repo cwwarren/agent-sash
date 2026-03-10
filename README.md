@@ -2,11 +2,7 @@
 
 A Claude Code hook that uses a local LLM to auto-approve safe bash commands.
 
-## The problem
-
 Claude Code's permission model forces a choice: hand-curate an allowlist, or click "approve" constantly. Allowlists work for simple cases (`git status`, `ls`) but break down for commands like `python3 -c ...` or `sed` that need to be broadly allowed for legitimate use yet can do real damage depending on their arguments. The alternative -- prompting every time -- trains users to reflexively approve, which is worse than no permission check at all.
-
-## The fix
 
 agent-sash runs a small model locally that scores each bash command's risk from 0 to 1. Safe commands flow through automatically. Risky ones still prompt you.
 
