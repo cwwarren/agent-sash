@@ -23,7 +23,6 @@ class Config:
     startup_timeout_seconds: float
     score_timeout_seconds: float
     allow_below: float
-    system_prompt: str
 
     @property
     def base_url(self) -> str:
@@ -72,7 +71,6 @@ def load_config() -> Config:
     startup_timeout_seconds = float(getenv("AGENT_SASH_STARTUP_TIMEOUT", str(raw["startup_timeout_seconds"])) or raw["startup_timeout_seconds"])
     score_timeout_seconds = float(getenv("AGENT_SASH_SCORE_TIMEOUT", str(raw["score_timeout_seconds"])) or raw["score_timeout_seconds"])
     allow_below = float(getenv("AGENT_SASH_ALLOW_BELOW", str(raw["allow_below"])) or raw["allow_below"])
-    system_prompt = getenv("AGENT_SASH_SYSTEM_PROMPT", raw["system_prompt"]) or raw["system_prompt"]
     return Config(
         backend=backend,
         host=host,
@@ -83,5 +81,4 @@ def load_config() -> Config:
         startup_timeout_seconds=startup_timeout_seconds,
         score_timeout_seconds=score_timeout_seconds,
         allow_below=allow_below,
-        system_prompt=system_prompt,
     )

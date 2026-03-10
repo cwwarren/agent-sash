@@ -9,6 +9,12 @@ import httpx
 from agent_sash.backend import get_model_id, is_healthy, start_server
 from agent_sash.config import Config
 
+SYSTEM_PROMPT = (
+    'You are a command risk scorer. Given a shell command, output a JSON object'
+    ' with a "score" field (0.0 = no risk, 1.0 = catastrophic) and an'
+    ' "explanation" field briefly describing the command\'s impact.'
+)
+
 
 @dataclass(frozen=True)
 class Score:
@@ -46,7 +52,7 @@ def score_command(config: Config, command: str) -> Score:
     payload = {
         "model": model,
         "messages": [
-            {"role": "system", "content": config.system_prompt},
+            {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": command},
         ],
         "max_tokens": 220,
