@@ -1,7 +1,7 @@
 # agent-sash
 
 <p align="center">
-  <img src="docs/logo.png" alt="agent-sash logo" width="120">
+  <img src="docs/logo.svg" alt="agent-sash logo" width="120">
 </p>
 
 A Claude Code hook that uses a local LLM to auto-approve safe bash commands.
