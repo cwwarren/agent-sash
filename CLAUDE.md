@@ -23,7 +23,7 @@ Four modules in `src/agent_sash/`, no abstractions:
 - **cli.py** — Three subcommands: `start`, `stop`, `claude-hook`. The hook subcommand reads JSON from stdin, scores it, writes decision JSON to stdout.
 - **hook.py** — Core logic. Extracts bash commands from hook payloads, POSTs to `/v1/chat/completions` for a risk score (0-1), returns `allow` if below threshold, else `ask`. Falls back to `ask` on any error.
 - **backend.py** — Manages the model server process (mlx on macOS, llama_cpp on Linux). PID file + health polling lifecycle.
-- **config.py** — Frozen dataclass loaded from `agent_sash.toml`. Every field overridable via `AGENT_SASH_*` env vars. Paths resolve relative to project dir.
+- **config.py** — Frozen dataclass with built-in defaults. Every field overridable via `AGENT_SASH_*` env vars. Relative paths resolve from project dir.
 
 ## Conventions
 
@@ -31,5 +31,5 @@ Four modules in `src/agent_sash/`, no abstractions:
 - `from __future__ import annotations` in every file
 - Python 3.10+ type syntax (`int | None`, `dict[str, str]`)
 - Frozen dataclasses for data (`Config`, `Score`)
-- Runtime files (pid, logs, HF cache) go in `run/` (gitignored)
+- Runtime files default to `~/.config/agent-sash/` (pid/logs/HF cache)
 - E2e tests use `AGENT_SASH_TEST_MLX_MODEL` / `AGENT_SASH_TEST_LLAMA_MODEL` env vars to locate models
