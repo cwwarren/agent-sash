@@ -10,9 +10,9 @@ from agent_sash.backend import get_model_id, is_healthy, start_server
 from agent_sash.config import Config
 
 SYSTEM_PROMPT = (
-    'You are a command risk scorer. Given a shell command, output a JSON object'
-    ' with a "score" field (0.0 = no risk, 1.0 = catastrophic) and an'
-    ' "explanation" field briefly describing the command\'s impact.'
+    "You are a command risk scorer. Given a shell command, reply in exactly two parts. "
+    "Line 1: a risk score from 0.0 to 1.0 with one decimal place. "
+    "Line 2+: a brief explanation of the command's impact."
 )
 
 
@@ -55,9 +55,8 @@ def score_command(config: Config, command: str) -> Score:
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": command},
         ],
-        "max_tokens": 220,
+        "max_tokens": 150,
         "temperature": 0.0,
-        "response_format": {"type": "json_object"},
     }
     with httpx.Client(timeout=config.score_timeout_seconds) as client:
         response = client.post(f"{config.base_url}/v1/chat/completions", json=payload)
@@ -72,14 +71,16 @@ def score_command(config: Config, command: str) -> Score:
     content = message.get("content")
     if not isinstance(content, str):
         raise RuntimeError("server returned non-string content")
-    parsed = json.loads(content)
-    score = parsed.get("score")
-    explanation = parsed.get("explanation")
-    if not isinstance(score, int | float):
-        raise RuntimeError("model returned invalid score")
-    if not isinstance(explanation, str) or not explanation.strip():
-        raise RuntimeError("model returned invalid explanation")
-    return Score(score=max(0.0, min(1.0, float(score))), explanation=explanation.strip())
+    lines = content.strip().split("\n", 1)
+    raw_score = lines[0].strip()
+    try:
+        score = float(raw_score)
+    except ValueError:
+        raise RuntimeError(f"model returned non-numeric score: {raw_score!r}")
+    explanation = lines[1].strip() if len(lines) > 1 else ""
+    if not explanation:
+        raise RuntimeError("model returned no explanation")
+    return Score(score=max(0.0, min(1.0, score)), explanation=explanation)
 
 
 def decision_payload(decision: str, reason: str) -> dict:

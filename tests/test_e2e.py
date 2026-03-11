@@ -13,14 +13,9 @@ import httpx
 import pytest
 
 
+from agent_sash.config import DEFAULT_MODEL_PATH
+
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-REPO_ROOT = PROJECT_DIR.parent
-DEFAULT_MLX_MODEL = Path(
-    os.getenv(
-        "AGENT_SASH_TEST_MLX_MODEL",
-        str(REPO_ROOT / "spicy/data/local_models/risk-scorer-qwen35-2b-v2-synth90k-fastpath-bucketed-mlx-q4"),
-    )
-)
 
 
 def free_port() -> int:
@@ -37,7 +32,7 @@ def cli_env(tmp_path: Path) -> dict[str, str]:
     env["AGENT_SASH_LOG_FILE"] = str(tmp_path / "agent-sash.log")
     if sys.platform == "darwin":
         env["AGENT_SASH_BACKEND"] = "mlx"
-        env["AGENT_SASH_MODEL_PATH"] = str(DEFAULT_MLX_MODEL)
+        env["AGENT_SASH_MODEL_PATH"] = os.getenv("AGENT_SASH_TEST_MLX_MODEL", DEFAULT_MODEL_PATH)
     elif sys.platform.startswith("linux"):
         model_path = os.getenv("AGENT_SASH_TEST_LLAMA_MODEL")
         if not model_path or not shutil.which("llama-server"):

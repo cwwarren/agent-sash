@@ -9,7 +9,7 @@ import sys
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8081
-DEFAULT_MODEL_PATH = "cwrn/Qwen3.5-2B-SHGuard-MLX-Q4"
+DEFAULT_MODEL_PATH = "cwrn/Qwen3.5-0.8B-SHGuard-MLX-Q8"
 DEFAULT_RUNTIME_DIR = Path.home() / ".config" / "agent-sash"
 DEFAULT_PID_FILE = DEFAULT_RUNTIME_DIR / "agent-sash.pid"
 DEFAULT_LOG_FILE = DEFAULT_RUNTIME_DIR / "agent-sash.log"
