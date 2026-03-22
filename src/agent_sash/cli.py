@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 import sys
 
@@ -14,7 +15,8 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("start")
     subparsers.add_parser("stop")
-    subparsers.add_parser("claude-hook")
+    hook_parser = subparsers.add_parser("claude-hook")
+    hook_parser.add_argument("--allow", default=None, help="override allow threshold, e.g. '<0.4'")
     return parser
 
 
@@ -32,8 +34,21 @@ def run_stop() -> int:
     return 0
 
 
-def run_claude_hook() -> int:
+def parse_allow(raw: str) -> float:
+    if not raw.startswith("<"):
+        raise ValueError("must start with '<'")
+    return float(raw[1:])
+
+
+def run_claude_hook(args: argparse.Namespace) -> int:
     config = load_config()
+    if args.allow is not None:
+        try:
+            threshold = parse_allow(args.allow)
+        except ValueError as exc:
+            print(f"--allow: invalid value {args.allow!r} ({exc}), expected '<float' e.g. '<0.4'", file=sys.stderr)
+            return 1
+        config = dataclasses.replace(config, allow_below=threshold)
     try:
         payload = load_hook_payload()
     except json.JSONDecodeError as exc:
@@ -54,5 +69,5 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "stop":
         return run_stop()
     if args.command == "claude-hook":
-        return run_claude_hook()
+        return run_claude_hook(args)
     raise RuntimeError(f"unknown command: {args.command}")

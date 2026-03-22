@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import pytest
+
+from agent_sash.cli import build_parser, parse_allow
 from agent_sash.config import load_config
 from agent_sash.hook import decision_payload, extract_bash_command
 
@@ -32,3 +35,32 @@ def test_decision_payload_shape() -> None:
 def test_config_threshold_contract() -> None:
     config = load_config()
     assert config.allow_below == 0.5
+
+
+def test_parse_allow_valid() -> None:
+    assert parse_allow("<0.4") == 0.4
+    assert parse_allow("<0.0") == 0.0
+    assert parse_allow("<1.0") == 1.0
+
+
+def test_parse_allow_rejects_missing_lt() -> None:
+    with pytest.raises(ValueError, match="must start with '<'"):
+        parse_allow("0.4")
+
+
+def test_parse_allow_rejects_non_float() -> None:
+    with pytest.raises(ValueError):
+        parse_allow("<abc")
+
+
+def test_claude_hook_parser_allow_flag() -> None:
+    parser = build_parser()
+    args = parser.parse_args(["claude-hook", "--allow", "<0.3"])
+    assert args.allow == "<0.3"
+    assert args.command == "claude-hook"
+
+
+def test_claude_hook_parser_allow_default() -> None:
+    parser = build_parser()
+    args = parser.parse_args(["claude-hook"])
+    assert args.allow is None
