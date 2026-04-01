@@ -5,7 +5,7 @@
 </p>
 
 > [!IMPORTANT]
-> **This repository is archived.** Claude Code now has built-in [Auto Mode](https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode), which eliminates permission prompts natively. Use that instead.
+> **This repository is archived.** Claude Code now has built-in [Auto Mode](https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode), which eliminates permission prompts natively — exciting to see this as a native capability. We'd recommend using Auto Mode going forward.
 
 A Claude Code hook that uses a local LLM to auto-approve safe bash commands.
 
