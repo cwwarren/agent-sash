@@ -4,6 +4,9 @@
   <img src="docs/logo.svg" alt="agent-sash logo" width="120">
 </p>
 
+> [!IMPORTANT]
+> **This repository is archived.** Claude Code now has built-in [Auto Mode](https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode), which eliminates permission prompts natively. Use that instead.
+
 A Claude Code hook that uses a local LLM to auto-approve safe bash commands.
 
 Claude Code's allowlists work for simple cases (`git status`, `ls`) but break down for commands like `python3 -c ...` or `sed` that need to be broadly allowed for legitimate use yet can do real damage depending on their arguments. The alternative -- prompting every time -- trains users to reflexively approve, which is worse than no permission check at all.
